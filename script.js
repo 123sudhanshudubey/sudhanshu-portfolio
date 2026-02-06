@@ -1,37 +1,39 @@
-// typing animation
-const roles=["AI ML Developer","Web Developer","Software Developer"];
-let i=0,j=0,current="",isDeleting=false;
+// typing effect
+const roles=["MCA Student","Web Developer","AI Enthusiast","Frontend Designer"];
+let i=0,j=0,current="",deleting=false;
 
 function type(){
-current=roles[i];
+let el=document.getElementById("typing");
 
-if(!isDeleting){
-document.querySelector(".typing").textContent=current.substring(0,j++);
-if(j>current.length){isDeleting=true;setTimeout(type,1000);return;}
-}else{
-document.querySelector(".typing").textContent=current.substring(0,j--);
-if(j<0){isDeleting=false;i=(i+1)%roles.length;}
+if(!deleting && j<=roles[i].length){
+current=roles[i].substring(0,j++);
 }
-setTimeout(type,100);
+else if(deleting && j>=0){
+current=roles[i].substring(0,j--);
 }
+
+el.innerHTML=current;
+
+if(j==roles[i].length) deleting=true;
+if(j==0 && deleting){
+deleting=false;
+i++;
+if(i==roles.length) i=0;
+}
+
+setTimeout(type,deleting?50:120);
+}
+
 type();
+
 
 // particles background
 particlesJS("particles-js",{
 particles:{
-number:{value:60},
+number:{value:80},
 size:{value:3},
-move:{speed:1},
-line_linked:{enable:true}
+move:{speed:2},
+line_linked:{enable:true},
+color:{value:"#3b82f6"}
 }
-});
-
-// scroll animation
-window.addEventListener("scroll",()=>{
-document.querySelectorAll("section").forEach(sec=>{
-if(sec.getBoundingClientRect().top<window.innerHeight-100){
-sec.style.opacity="1";
-sec.style.transform="translateY(0)";
-}
-});
 });
